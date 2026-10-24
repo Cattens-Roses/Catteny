@@ -1,7 +1,7 @@
 {
   "logo": {
     "type": "file-raw",
-    "source": "/usr/share/yourdistro/logo.txt"
+    "source": "/usr/share/Catteny/logo.txt"
   },
   "modules": ["os", "kernel", "uptime", "packages", "shell", "wm", "cpu", "gpu", "memory", "colors"]
 }
