@@ -1,0 +1,31 @@
+name: Build ISO
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: archlinux
+      options: --privileged
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install deps
+        run: |
+          pacman -Syyuu --noconfirm
+          pacman -Sy archiso squashfs-tools libisoburn dosfstools grub --noconfirm
+
+      - name: Build
+        run: mkarchiso -v -w /tmp/build -o ./out ./profile/
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: yourdistro-iso
+          path: out/*.iso
+          retention-days: 30
