@@ -30,10 +30,13 @@ jobs:
           pacman -S --needed --noconfirm base-devel git python python-yaml python-jsonschema \
             kcoreaddons kpmcore libpwquality qt6-declarative qt6-svg yaml-cpp \
             extra-cmake-modules libglvnd ninja qt6-tools qt6-translations
+          # Create a non-root build user
+          useradd -m -s /bin/bash builder
           git clone --depth 1 https://aur.archlinux.org/calamares.git /tmp/calamares-src
-          cd /tmp/calamares-src
-          makepkg -s --noconfirm --cleanbuild
-          cp calamares-*.pkg.tar.* /__w/Catteny/Catteny/profile/
+          chown -R builder:builder /tmp/calamares-src
+          # Run makepkg as the build user
+          su -s /bin/bash builder -c "cd /tmp/calamares-src && makepkg -s --noconfirm --cleanbuild"
+          cp /tmp/calamares-src/calamares-*.pkg.tar.* /__w/Catteny/Catteny/profile/
 
       - name: Build ISO
         run: mkarchiso -v -w /tmp/build -o ./out ./profile/
