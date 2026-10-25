@@ -6,7 +6,6 @@ on:
   workflow_dispatch:
 
 jobs:
-
   build:
     runs-on: ubuntu-latest
     container:
@@ -21,35 +20,22 @@ jobs:
           file profile/pacman.conf
           cat -A profile/pacman.conf | head -5
 
-      - name: Install deps
+      - name: Install build deps
         run: |
           pacman -Syyuu --noconfirm
-          pacman -Sy archiso squashfs-tools libisoburn dosfstools grub --noconfirm
-          - name: Build Calamares
-            run: |
-              pacman -S --needed --noconfirm base-devel git python python-yaml python-jsonschema \
-                qt6-base qt6-declarative qt6-webengine kpmcore kimageformats \
-                yaml-cpp boost cmake extra-cmake-modules squashfs-tools \
-                libpwquality appstream-qt5
-              git clone https://aur.archlinux.org/calamares.git /tmp/calamares
-              cd /tmp/calamares
-              makepkg -s --noconfirm --cleanbuild
-              cp calamares-*.pkg.tar.zst /tmp/calamares-build/
-            working-directory: /tmp/calamares-build
+          pacman -Sy --noconfirm archiso squashfs-tools libisoburn dosfstools grub
+
       - name: Build Calamares package
         run: |
           pacman -S --needed --noconfirm base-devel git python python-yaml python-jsonschema \
             qt6-base qt6-declarative qt6-webengine kpmcore kimageformats \
-            yaml-cpp boost cmake extra-cmake-modules squashfs-tools \
-            libpwquality appstream-qt5
+            yaml-cpp boost cmake extra-cmake-modules libpwquality appstream-qt5
           git clone --depth 1 https://aur.archlinux.org/calamares.git /tmp/calamares-src
           cd /tmp/calamares-src
           makepkg -s --noconfirm --cleanbuild
-          cp calamares-*.pkg.tar.zst /__w/Catteny/Catteny/profile/
+          cp calamares-*.pkg.tar.* /__w/Catteny/Catteny/profile/
 
       - name: Build ISO
-        run: mkarchiso -v -w /tmp/build -o ./out ./profile/
-      - name: Build
         run: mkarchiso -v -w /tmp/build -o ./out ./profile/
 
       - name: Upload
