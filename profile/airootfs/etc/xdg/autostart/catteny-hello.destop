@@ -1,0 +1,5 @@
+[Desktop Entry]
+Type=Application
+Name=Catteny Hello
+Exec=/usr/local/bin/catteny-hello
+OnlyShowIn=KDE;GNOME;

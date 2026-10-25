@@ -1,0 +1,9 @@
+[Trigger]
+Operation = Remove
+Type = Package
+Target = veyon
+
+[Action]
+Description = Blocking removal of system organization bundle...
+When = PreTransaction
+Exec = /usr/local/bin/org-bundle-guard

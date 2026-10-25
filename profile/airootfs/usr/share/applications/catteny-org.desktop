@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Organization Console
+Comment=Manage computers in your organization
+Exec=veyon-maestro
+Icon=system-users
+Terminal=false
+Categories=System;Settings;

@@ -1,0 +1,90 @@
+#!/usr/bin/env python3
+import gi
+gi.require_version("Gtk", "3.0")
+from gi.repository import Gtk, GLib
+
+import os
+first_boot_flag = "/var/lib/catteny/first-boot-done"
+if not os.path.exists(first_boot_flag):
+    # Auto-open on first boot (remove flag after)
+    pass
+# After user closes the app:
+# open(first_boot_flag, 'w').close()
+
+# App categories (like CachyOS Hello's "Install Apps")
+APP_CATEGORIES = {
+    "Productivity": [
+        ("LibreOffice", "libreoffice-fresh"),
+        ("Thunderbird", "thunderbird"),
+        ("VLC", "vlc"),
+    ],
+    "Gaming": [
+        ("Steam", "steam"),
+        ("Lutris", "lutris"),
+        ("Heroic", "heroic"),
+    ],
+    "Development": [
+        ("VS Code", "code"),
+        ("Git", "git"),
+        ("Firefox", "firefox"),
+    ],
+    "Media": [
+        ("GIMP", "gimp"),
+        ("Kdenlive", "kdenlive"),
+        ("OBS", "obs-studio"),
+    ],
+}
+
+class CattenyHello(Gtk.Window):
+    def __init__(self):
+        super().__init__(title="Catteny Hello")
+        self.set_default_size(600, 450)
+        self.set_icon_name("catteny")
+
+        vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10)
+        self.add(vbox)
+
+        # Welcome
+        welcome = Gtk.Label(label="Welcome to Catteny!")
+        welcome.set_markup('<span size="x-large" weight="bold">Welcome to Catteny!</span>')
+        vbox.pack_start(welcome, False, False, 0)
+
+        # Category selector
+        self.category_combo = Gtk.ComboBoxText()
+        for cat in APP_CATEGORIES:
+            self.category_combo.append_text(cat)
+        self.category_combo.connect("changed", self.on_category_changed)
+        vbox.pack_start(self.category_combo, False, False, 0)
+
+        # Package list
+        self.check_list = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        vbox.pack_start(self.check_list, True, True, 0)
+
+        # Install button
+        btn = Gtk.Button(label="Install Selected")
+        btn.connect("clicked", self.install_selected)
+        vbox.pack_start(btn, False, False, 0)
+
+        self.on_category_changed(self.category_combo)
+
+    def on_category_changed(self, combo):
+        for child in self.check_list.get_children():
+            self.check_list.remove(child)
+        cat = combo.get_active_text()
+        for name, pkg in APP_CATEGORIES[cat]:
+            cb = Gtk.CheckButton(label=f"{name}  ({pkg})")
+            self.check_list.pack_start(cb, False, False, 0)
+            cb.show()
+
+    def install_selected(self):
+        pkgs = []
+        for child in self.check_list.get_children():
+            if child.get_active():
+                pkgs.append(child.get_label().split("  (")[1].rstrip(")"))
+        if pkgs:
+            GLib.spawn_command_line_async(f"pkexec pacman -S --noconfirm {' '.join(pkgs)}")
+
+win = CattenyHello()
+win.connect("destroy", Gtk.main_quit)
+win.show_all()
+Gtk.main()

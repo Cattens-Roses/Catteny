@@ -24,6 +24,16 @@ jobs:
         run: |
           pacman -Syyuu --noconfirm
           pacman -Sy --noconfirm archiso squashfs-tools libisoburn dosfstools grub
+      - name: Build Veyon package
+        run: |
+          pacman -S --needed --noconfirm base-devel git python python-pip \
+            qt6-base qt6-declarative qt6-svg qt6-tools qt6-translations \
+            libxkbcommon pipewire libpulse extra-cmake-modules
+          useradd -m -s /bin/bash builder
+          git clone --depth 1 https://github.com/veyon/veyon.git /tmp/veyon-src
+          chown -R builder:builder /tmp/veyon-src
+          su -s /bin/bash builder -c "cd /tmp/veyon-src && makepkg -s --noconfirm --cleanbuild"
+          cp /tmp/veyon-src/veyon-*.pkg.tar.* /__w/Catteny/Catteny/profile/
 
       - name: Build Calamares package
         run: |

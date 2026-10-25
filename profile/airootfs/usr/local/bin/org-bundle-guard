@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+echo "ERROR: veyon is a core system component (Organization Bundle)."
+echo "It cannot be removed. Contact your system administrator."
+exit 1

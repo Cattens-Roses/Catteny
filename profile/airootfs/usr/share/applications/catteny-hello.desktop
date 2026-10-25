@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Catteny Hello
+Comment=Welcome, setup, and app installer
+Exec=/usr/local/bin/catteny-hello
+Icon=system-run
+Terminal=false
+Categories=System;Settings;

@@ -23,3 +23,6 @@ pacman
 arch-install-scripts
 memtest86+
 memtest86+-efi
+python
+python-gobject
+gtk3
