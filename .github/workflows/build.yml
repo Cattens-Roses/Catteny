@@ -6,6 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
+
   build:
     runs-on: ubuntu-latest
     container:
@@ -14,6 +15,11 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
+
+      - name: Debug pacman.conf
+        run: |
+          file profile/pacman.conf
+          cat -A profile/pacman.conf | head -5
 
       - name: Install deps
         run: |
