@@ -31,6 +31,35 @@ jobs:
             libxkbcommon pipewire libpulse extra-cmake-modules
           useradd -m -s /bin/bash builder
           git clone --depth 1 https://github.com/veyon/veyon.git /tmp/veyon-src
+          # Create a PKGBUILD
+          cat > /tmp/veyon-src/PKGBUILD << 'EOF'
+          pkgname=veyon
+          pkgver=4.9.1
+          pkgrel=1
+          pkgdesc="Open source classroom management software"
+          arch=(x86_64)
+          url="https://veyon.io"
+          license=(GPL-2.0)
+          depends=(qt6-base qt6-declarative qt6-svg libxkbcommon pipewire libpulse)
+          makedepends=(cmake ninja python)
+          source=("https://github.com/veyon/veyon/archive/refs/tags/v${pkgver}.tar.gz")
+          sha256sums=('SKIP')
+          build() {
+            mkdir -p build
+            cd build
+            cmake ../veyon-${pkgver} \
+              -G Ninja \
+              -DCMAKE_BUILD_TYPE=Release \
+              -DWITH_SERVER=ON \
+              -DWITH_CLIENT=ON \
+              -DWITH_MAESTRO=ON
+             ninja
+          }
+          package() {
+            cd build
+            DESTDIR="${pkgdir}" ninja install
+          }
+          EOF
           chown -R builder:builder /tmp/veyon-src
           su -s /bin/bash builder -c "cd /tmp/veyon-src && makepkg -s --noconfirm --cleanbuild"
           cp /tmp/veyon-src/veyon-*.pkg.tar.* /__w/Catteny/Catteny/profile/
