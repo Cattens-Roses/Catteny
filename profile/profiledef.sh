@@ -10,4 +10,4 @@ bootmodes=('bios.syslinux' 'uefi.grub')
 arch="x86_64"
 pacman_conf="pacman.conf"
 airootfs_image_type="squashfs"
-airootfs_image_tool_options=('-comp' 'zstd' '-Xdict-size' '16M')
+airootfs_image_tool_options=('-comp' 'zstd' '-Xcompression-level' '19')
