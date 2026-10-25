@@ -28,8 +28,8 @@ jobs:
       - name: Build Calamares package
         run: |
           pacman -S --needed --noconfirm base-devel git python python-yaml python-jsonschema \
-            qt6-base qt6-declarative qt6-webengine kpmcore kimageformats \
-            yaml-cpp boost cmake extra-cmake-modules libpwquality appstream-qt5
+            kcoreaddons kpmcore libpwquality qt6-declarative qt6-svg yaml-cpp \
+            extra-cmake-modules libglvnd ninja qt6-tools qt6-translations
           git clone --depth 1 https://aur.archlinux.org/calamares.git /tmp/calamares-src
           cd /tmp/calamares-src
           makepkg -s --noconfirm --cleanbuild
