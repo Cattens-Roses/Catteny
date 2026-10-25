@@ -19,8 +19,6 @@ efibootmgr
 os-prober
 systemd
 systemd-sysvcompat
-systemd-resolved
-systemd-networkd
 pacman
 arch-install-scripts
 memtest86+
