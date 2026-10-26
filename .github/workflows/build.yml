@@ -29,7 +29,7 @@ jobs:
         run: |
           pacman -S --needed --noconfirm base-devel git python python-pip \
             qt6-base qt6-declarative qt6-svg qt6-tools qt6-translations \
-            libxkbcommon pipewire libpulse extra-cmake-modules ninja
+            qt6-5compat libxkbcommon pipewire libpulse extra-cmake-modules ninja
           useradd -m -s /bin/bash builder
           git clone --depth 1 https://github.com/veyon/veyon.git /tmp/veyon-src
           cat > /tmp/veyon-src/PKGBUILD << 'EOF'
