@@ -49,12 +49,14 @@ jobs:
           source=()
           sha256sums=()
           build() {
+            # Remove -Werror from all CMake files
+            find /tmp/veyon-src -name "CMakeLists.txt" -exec sed -i 's/-Werror/-Wno-error/g' {} \;
+            find /tmp/veyon-src -name "*.cmake" -exec sed -i 's/-Werror/-Wno-error/g' {} \;
             mkdir -p /tmp/veyon-src/build
             cd /tmp/veyon-src/build
             cmake /tmp/veyon-src \
               -G Ninja \
-              -DCMAKE_BUILD_TYPE=Release \
-              -DCMAKE_CXX_FLAGS="-Wno-error"
+              -DCMAKE_BUILD_TYPE=Release
             ninja
           }
           package() {
