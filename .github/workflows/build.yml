@@ -27,8 +27,8 @@ jobs:
 
       - name: Build Veyon package
         run: |
-          pacman -S --needed --noconfirm base-devel git python python-pip \
-            qt6-base qt6-declarative qt6-svg qt6-tools qt6-translations \
+          pacman -S --needed --noconfirm libXrandr-devel base-devel git python \
+          python-pip qt6-base qt6-declarative qt6-svg qt6-tools qt6-translations \
             qt6-5compat qca-qt6 libXrandr-devel libxkbcommon pipewire \
             libpulse extra-cmake-modules ninja
 
