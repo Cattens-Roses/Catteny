@@ -59,7 +59,8 @@ jobs:
             mkdir -p /tmp/veyon-src/build
             cd /tmp/veyon-src/build
             # Fix QAtomicInt::arg() for Qt6 — add .load() to atomic counter args
-            sed -i 's/\.arg(m_\([a-zA-Z]*\(Counter\|PerSecond\)\))/.arg(m_\1.load())/g' \
+            # Fix QAtomicInt for Qt6 — cast to int instead of .load()
+            sed -i 's/\.arg(m_\([a-zA-Z]*\(Counter\|PerSecond\)\))/.arg((int)m_\1)/g' \
               /tmp/veyon-src/plugins/webapi/WebApiController.cpp
             cmake /tmp/veyon-src \
               -G Ninja \
