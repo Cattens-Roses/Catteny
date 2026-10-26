@@ -48,7 +48,7 @@ jobs:
           source=("https://github.com/veyon/veyon/archive/refs/tags/v${pkgver}.tar.gz")
           sha256sums=('SKIP')
           build() {
-            rm -rf src/veyon-${pkgver}/plugins/ldap
+            rm -rf /tmp/veyon-src/src/veyon-4.9.1/plugins/ldap
             mkdir -p build
             cd build
             cmake ../veyon-${pkgver} \
