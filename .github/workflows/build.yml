@@ -81,7 +81,7 @@ jobs:
           pacman -S --needed --noconfirm base-devel git python python-yaml python-jsonschema \
             kcoreaddons kpmcore libpwquality qt6-declarative qt6-svg yaml-cpp \
             extra-cmake-modules libglvnd ninja qt6-tools qt6-translations
-          useradd -m -s /bin/bash builder
+          useradd -m -s /bin/bash builder || true
           git clone --depth 1 https://aur.archlinux.org/calamares.git /tmp/calamares-src
           chown -R builder:builder /tmp/calamares-src
           su -s /bin/bash builder -c "cd /tmp/calamares-src && makepkg -s --noconfirm --cleanbuild"
