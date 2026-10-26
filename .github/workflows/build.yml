@@ -49,15 +49,15 @@ jobs:
           source=()
           sha256sums=()
           build() {
-            mkdir -p build
-            cd build
-            cmake .. \
+            mkdir -p /tmp/veyon-src/build
+            cd /tmp/veyon-src/build
+            cmake /tmp/veyon-src \
               -G Ninja \
               -DCMAKE_BUILD_TYPE=Release
             ninja
           }
           package() {
-            cd build
+            cd /tmp/veyon-src/build
             DESTDIR="${pkgdir}" ninja install
           }
           EOF
