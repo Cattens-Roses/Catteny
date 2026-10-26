@@ -1,7 +1,7 @@
 # Catteny
 [![Ask DeepWiki](https://devin.ai/assets/askdeepwiki.png)](https://deepwiki.com/Cattens-Roses/Catteny)
 
-Catteny is an Arch Linux-based distribution profile designed for organizational and educational environments. It uses `archiso` to build a bootable live ISO that includes a customized Calamares installer and pre-configured system management tools.
+Catteny is an Arch Linux-based distribution profile designed for organizational and educational environments.
 
 ## Features
 
