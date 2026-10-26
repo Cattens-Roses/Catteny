@@ -49,9 +49,10 @@ jobs:
           source=()
           sha256sums=()
           build() {
-            # Remove -Werror from all CMake files
-            find /tmp/veyon-src -name "CMakeLists.txt" -exec sed -i 's/-Werror/-Wno-error/g' {} \;
-            find /tmp/veyon-src -name "*.cmake" -exec sed -i 's/-Werror/-Wno-error/g' {} \;
+            find /tmp/veyon-src -name "CMakeLists.txt" -not -path "*/pkg/*" -not -path "*/src/*" \
+              -exec sed -i 's/-Werror/-Wno-error/g' {} \; 2>/dev/null
+            find /tmp/veyon-src -name "*.cmake" -not -path "*/pkg/*" -not -path "*/src/*" \
+              -exec sed -i 's/-Werror/-Wno-error/g' {} \; 2>/dev/null
             mkdir -p /tmp/veyon-src/build
             cd /tmp/veyon-src/build
             cmake /tmp/veyon-src \
