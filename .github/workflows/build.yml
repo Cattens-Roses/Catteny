@@ -49,10 +49,10 @@ jobs:
           source=()
           sha256sums=()
           build() {
-            find /tmp/veyon-src -name "CMakeLists.txt" -not -path "*/pkg/*" -not -path "*/src/*" \
-              -exec sed -i 's/-Werror/-Wno-error/g' {} \; 2>/dev/null
-            find /tmp/veyon-src -name "*.cmake" -not -path "*/pkg/*" -not -path "*/src/*" \
-              -exec sed -i 's/-Werror/-Wno-error/g' {} \; 2>/dev/null
+            find /tmp/veyon-src -name "CMakeLists.txt" -not -path "*/pkg/*" \
+              -exec sed -i 's/-Werror/-Wno-error/g' {} \; 2>/dev/null || true
+            find /tmp/veyon-src -name "*.cmake" -not -path "*/pkg/*" \
+              -exec sed -i 's/-Werror/-Wno-error/g' {} \; 2>/dev/null || true
             mkdir -p /tmp/veyon-src/build
             cd /tmp/veyon-src/build
             cmake /tmp/veyon-src \
