@@ -33,7 +33,6 @@ jobs:
             libxdamage libxkbcommon pipewire libpulse libvncserver \
             libxcomposite libxcursor extra-cmake-modules ninja
           useradd -m -s /bin/bash builder
-          # Clone WITH submodules
           git clone --recurse-submodules --depth 1 --branch v4.9.1 \
             https://github.com/veyon/veyon.git /tmp/veyon-src
           cat > /tmp/veyon-src/PKGBUILD << 'EOF'
@@ -49,7 +48,6 @@ jobs:
           source=()
           sha256sums=()
           build() {
-            # Fix PIDS_VAL for libproc2 4.x — remove 4th arg from all calls
             find /tmp/veyon-src/plugins -name "*.cpp" -o -name "*.h" | \
               xargs sed -i 's/PIDS_VAL(\([^,]*\), \([^,]*\), \([^,]*\), info)/PIDS_VAL(\1, \2, \3)/g'
             find /tmp/veyon-src -name "CMakeLists.txt" -not -path "*/pkg/*" \
@@ -58,8 +56,6 @@ jobs:
               -exec sed -i 's/-Werror/-Wno-error/g' {} \; 2>/dev/null || true
             mkdir -p /tmp/veyon-src/build
             cd /tmp/veyon-src/build
-            # Fix QAtomicInt::arg() for Qt6 — add .load() to atomic counter args
-            # Fix QAtomicInt for Qt6 — cast to int instead of .load()
             sed -i 's/\.arg(m_\([a-zA-Z]*\(Counter\|PerSecond\)\))/.arg((int)m_\1)/g' \
               /tmp/veyon-src/plugins/webapi/WebApiController.cpp
             cmake /tmp/veyon-src \
@@ -86,21 +82,12 @@ jobs:
           chown -R builder:builder /tmp/calamares-src
           su -s /bin/bash builder -c "cd /tmp/calamares-src && makepkg -s --noconfirm --cleanbuild"
           cp /tmp/calamares-src/calamares-*.pkg.tar.* /__w/Catteny/Catteny/profile/
+
       - name: Build full ISO
         run: mkarchiso -v -w /tmp/build-full -o ./out ./profile/
 
       - name: Build netinstall ISO
         run: mkarchiso -v -w /tmp/build-net -o ./out ./profile-netinstall/
-
-      - name: Upload
-        uses: actions/upload-artifact@v4
-        with:
-          name: catteny-iso
-          path: out/*.iso
-          retention-days: 30
-
-      - name: Build ISO
-        run: mkarchiso -v -w /tmp/build -o ./out ./profile/
 
       - name: Upload
         uses: actions/upload-artifact@v4
