@@ -32,9 +32,10 @@ jobs:
             qt6-5compat qt6-httpserver qca-qt6 libxtst libxrandr libxinerama \
             libxdamage libxkbcommon pipewire libpulse libvncserver \
             libxcomposite libxcursor extra-cmake-modules ninja
-
           useradd -m -s /bin/bash builder
-          git clone --depth 1 https://github.com/veyon/veyon.git /tmp/veyon-src
+          # Clone WITH submodules
+          git clone --recurse-submodules --depth 1 --branch v4.9.1 \
+            https://github.com/veyon/veyon.git /tmp/veyon-src
           cat > /tmp/veyon-src/PKGBUILD << 'EOF'
           pkgname=veyon
           pkgver=4.9.1
@@ -45,18 +46,14 @@ jobs:
           license=(GPL-2.0)
           depends=(qt6-base qt6-declarative qt6-svg libxkbcommon pipewire libpulse)
           makedepends=(cmake ninja python)
-          source=("https://github.com/veyon/veyon/archive/refs/tags/v${pkgver}.tar.gz")
-          sha256sums=('SKIP')
+          source=()
+          sha256sums=()
           build() {
-            rm -rf /tmp/veyon-src/src/veyon-4.9.1/plugins/ldap
             mkdir -p build
             cd build
-            cmake ../veyon-${pkgver} \
+            cmake .. \
               -G Ninja \
-              -DCMAKE_BUILD_TYPE=Release \
-              -DWITH_SERVER=ON \
-              -DWITH_CLIENT=ON \
-              -DWITH_MAESTRO=ON
+              -DCMAKE_BUILD_TYPE=Release
             ninja
           }
           package() {
