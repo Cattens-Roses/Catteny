@@ -49,8 +49,9 @@ jobs:
           source=()
           sha256sums=()
           build() {
-            # Remove libproc2 so cmake skips the incompatible code path
-            pacman -Rdd --noconfirm libproc2 2>/dev/null || true
+            # Fix PIDS_VAL for libproc2 4.x (4 args → 3 args)
+            sed -i 's/PIDS_VAL(0, s_int, stack, info)/PIDS_VAL(0, s_int, stack)/g' \
+              /tmp/veyon-src/plugins/platform/linux/LinuxServerProcess.cpp
             find /tmp/veyon-src -name "CMakeLists.txt" -not -path "*/pkg/*" \
               -exec sed -i 's/-Werror/-Wno-error/g' {} \; 2>/dev/null || true
             find /tmp/veyon-src -name "*.cmake" -not -path "*/pkg/*" \
