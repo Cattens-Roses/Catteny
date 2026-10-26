@@ -1,0 +1,15 @@
+base
+linux
+linux-firmware
+intel-ucode
+grub
+syslinux
+efibootmgr
+os-prober
+networkmanager
+openssh
+pacman
+dosfstools
+e2fsprogs
+btrfs-progs
+exfatprogs

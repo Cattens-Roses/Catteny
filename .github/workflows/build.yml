@@ -86,6 +86,18 @@ jobs:
           chown -R builder:builder /tmp/calamares-src
           su -s /bin/bash builder -c "cd /tmp/calamares-src && makepkg -s --noconfirm --cleanbuild"
           cp /tmp/calamares-src/calamares-*.pkg.tar.* /__w/Catteny/Catteny/profile/
+      - name: Build full ISO
+        run: mkarchiso -v -w /tmp/build-full -o ./out ./profile/
+
+      - name: Build netinstall ISO
+        run: mkarchiso -v -w /tmp/build-net -o ./out ./profile-netinstall/
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: catteny-iso
+          path: out/*.iso
+          retention-days: 30
 
       - name: Build ISO
         run: mkarchiso -v -w /tmp/build -o ./out ./profile/
