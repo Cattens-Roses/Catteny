@@ -49,9 +49,9 @@ jobs:
           source=()
           sha256sums=()
           build() {
-            # Fix PIDS_VAL for libproc2 4.x (4 args → 3 args)
-            sed -i 's/PIDS_VAL(0, s_int, stack, info)/PIDS_VAL(0, s_int, stack)/g' \
-              /tmp/veyon-src/plugins/platform/linux/LinuxServerProcess.cpp
+            # Fix PIDS_VAL for libproc2 4.x — remove 4th arg from all calls
+            find /tmp/veyon-src/plugins -name "*.cpp" -o -name "*.h" | \
+              xargs sed -i 's/PIDS_VAL(\([^,]*\), \([^,]*\), \([^,]*\), info)/PIDS_VAL(\1, \2, \3)/g'
             find /tmp/veyon-src -name "CMakeLists.txt" -not -path "*/pkg/*" \
               -exec sed -i 's/-Werror/-Wno-error/g' {} \; 2>/dev/null || true
             find /tmp/veyon-src -name "*.cmake" -not -path "*/pkg/*" \
