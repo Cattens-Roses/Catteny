@@ -29,8 +29,8 @@ jobs:
         run: |
           pacman -S --needed --noconfirm base-devel git python python-pip \
             qt6-base qt6-declarative qt6-svg qt6-tools qt6-translations \
-            qt6-5compat qca-qt6 libxtst libxrandr libxinerama libxkbcommon \
-            pipewire libpulse extra-cmake-modules ninja
+            qt6-5compat qca-qt6 libxtst libxrandr libxinerama libxdamage \
+            libxkbcommon pipewire libpulse extra-cmake-modules ninja
 
           useradd -m -s /bin/bash builder
           git clone --depth 1 https://github.com/veyon/veyon.git /tmp/veyon-src
