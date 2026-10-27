@@ -82,6 +82,10 @@ jobs:
           chown -R builder:builder /tmp/calamares-src
           su -s /bin/bash builder -c "cd /tmp/calamares-src && makepkg -s --noconfirm --cleanbuild"
           cp /tmp/calamares-src/calamares-*.pkg.tar.* /__w/Catteny/Catteny/profile/
+      - name: Fix netinstall pacman.conf
+        run: |
+          sed -i 's/\r$//' profile-netinstall/pacman.conf
+          sed -i '1s/^\xEF\xBB\xBF//' profile-netinstall/pacman.conf
 
       - name: Build full ISO
         run: mkarchiso -v -w /tmp/build-full -o ./out ./profile/
