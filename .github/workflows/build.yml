@@ -86,6 +86,10 @@ jobs:
         run: |
           sed -i 's/\r$//' profile-netinstall/pacman.conf
           sed -i '1s/^\xEF\xBB\xBF//' profile-netinstall/pacman.conf
+      - name: Fix line endings
+        run: |
+          sed -i 's/\r$//' profile-netinstall/pacman.conf
+          sed -i '1s/^\xEF\xBB\xBF//' profile-netinstall/pacman.conf
 
       - name: Build full ISO
         run: mkarchiso -v -w /tmp/build-full -o ./out ./profile/
