@@ -94,6 +94,15 @@ jobs:
       - name: Build full ISO
         run: mkarchiso -v -w /tmp/build-full -o ./out ./profile/
 
+      - name: Debug netinstall pacman.conf
+        run: |
+          echo "=== file type ==="
+          file profile-netinstall/pacman.conf
+          echo "=== hexdump first 20 bytes ==="
+          xxd profile-netinstall/pacman.conf | head -5
+          echo "=== full content ==="
+          cat -A profile-netinstall/pacman.conf
+
       - name: Build netinstall ISO
         run: mkarchiso -v -w /tmp/build-net -o ./out ./profile-netinstall/
 
