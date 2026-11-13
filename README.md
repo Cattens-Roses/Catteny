@@ -1,7 +1,10 @@
 # Catteny
 [![Ask DeepWiki](https://devin.ai/assets/askdeepwiki.png)](https://deepwiki.com/Cattens-Roses/Catteny)
+[![GitHub Pages](https://img.shields.io/badge/Web_App-GitHub_Pages-1793d1?logo=github&style=flat-square)](https://cattens-roses.github.io/Catteny/)
 
 Catteny is an Arch Linux-based distribution profile designed for organizational and educational environments.
+
+Explore the official interactive web app and knowledge base at: **[https://cattens-roses.github.io/Catteny/](https://cattens-roses.github.io/Catteny/)**
 
 ## Features
 

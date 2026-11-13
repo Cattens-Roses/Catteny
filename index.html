@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catteny — Arch Linux Distribution for Educational Labs & Workstations</title>
+  <meta name="description" content="Catteny is an Arch Linux-based distribution optimized for computer labs and educational environments, featuring dual profiles, Veyon classroom monitoring, and Calamares installer.">
+  <meta name="theme-color" content="#e11d48">
+
+  <!-- OpenGraph / Social Sharing -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Catteny — Arch Linux for Educational Labs">
+  <meta property="og:description" content="Rolling Arch Linux base, dual deployment profiles, Veyon classroom management, and Calamares graphical installer.">
+  <meta property="og:image" content="assets/logo.svg">
+
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Background Interactive Cyber Canvas & Animated Aurora Orbs -->
+  <canvas id="bg-canvas"></canvas>
+  <div class="aurora-container" aria-hidden="true">
+    <div class="aurora-orb aurora-1"></div>
+    <div class="aurora-orb aurora-2"></div>
+    <div class="aurora-orb aurora-3"></div>
+  </div>
+
+  <!-- ==================== Minimal Floating Pill Navigation Bar ==================== -->
+  <header class="navbar-wrapper">
+    <nav class="navbar-pill">
+      <a href="#hero" class="brand-wrapper">
+        <div class="brand-logo-glow">
+          <img src="assets/logo.svg" alt="Catteny Logo" class="brand-logo">
+        </div>
+        <span class="brand-name">Catteny</span>
+        <span class="live-dot" title="Rolling Release Arch Base"></span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#features" class="nav-link">Features</a></li>
+        <li><a href="#profiles" class="nav-link">Profiles</a></li>
+        <li><a href="#simulators" class="nav-link">Simulators</a></li>
+        <li><a href="#wiki" class="nav-link">DeepWiki</a></li>
+        <li><a href="#calculator" class="nav-link">Calculator</a></li>
+        <li><a href="#flashing" class="nav-link">Install</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <button id="theme-toggle-btn" class="btn-icon-minimal" aria-label="Toggle Theme" title="Switch Theme">
+          <span id="theme-icon-container">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle></svg>
+          </span>
+        </button>
+
+        <a href="https://github.com/Cattens-Roses/Catteny" target="_blank" rel="noopener" class="btn-github-pill" title="View Source on GitHub">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+          <span id="gh-stars">GitHub</span>
+        </a>
+
+        <!-- Mobile Menu Toggle Button -->
+        <button id="mobile-menu-btn" class="mobile-toggle-btn" aria-label="Open Navigation">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Mobile Drawer Menu -->
+  <div id="mobile-drawer" class="mobile-drawer">
+    <div class="drawer-header">
+      <div style="display:flex; align-items:center; gap:0.5rem; font-weight:700;">
+        <img src="assets/logo.svg" alt="Catteny" width="24" height="24">
+        Catteny Navigation
+      </div>
+      <button id="mobile-close-btn" class="drawer-close">&times;</button>
+    </div>
+    <ul class="drawer-links">
+      <li><a href="#features" class="drawer-link">Features</a></li>
+      <li><a href="#profiles" class="drawer-link">Dual Profiles</a></li>
+      <li><a href="#simulators" class="drawer-link">Simulators</a></li>
+      <li><a href="#wiki" class="drawer-link">DeepWiki Docs</a></li>
+      <li><a href="#calculator" class="drawer-link">Lab Calculator</a></li>
+      <li><a href="#flashing" class="drawer-link">Install Guide</a></li>
+    </ul>
+  </div>
+
+  <!-- ==================== Hero Section ==================== -->
+  <section id="hero" class="hero-section">
+    <div class="container hero-grid">
+      <div class="hero-content">
+        <div class="hero-badges">
+          <span class="pill-badge pulse-badge">
+            <span class="pulse-ring"></span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            Arch Linux Base
+          </span>
+          <span class="pill-badge glow-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            Veyon Lab Management
+          </span>
+          <span class="pill-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
+            Calamares Installer
+          </span>
+        </div>
+
+        <h1 class="hero-title">
+          The Linux Distribution for <span class="text-gradient shimmer-text">Computer Labs & Education</span>
+        </h1>
+
+        <p class="hero-subtitle">
+          Catteny combines the rolling freshness of Arch Linux with dual deployment profiles, automated Calamares package bundles, Veyon classroom monitoring, and system integrity hooks to safeguard institutional computer labs.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#wiki" class="btn btn-primary btn-flashy">
+            <span class="btn-shine"></span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+            Explore DeepWiki
+          </a>
+          <a href="#simulators" class="btn btn-secondary btn-glow">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+            Interactive Simulators
+          </a>
+          <a href="#flashing" class="btn btn-secondary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            Get ISO
+          </a>
+        </div>
+
+        <div class="hero-features-list">
+          <div class="hero-feature-item">
+            <div class="feature-icon-wrapper">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            Dual Profiles: Full Desktop & Netinstall
+          </div>
+          <div class="hero-feature-item">
+            <div class="feature-icon-wrapper">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            Protected Veyon Classroom Monitoring
+          </div>
+          <div class="hero-feature-item">
+            <div class="feature-icon-wrapper">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            "Catteny Hello" Post-Install Software Hub
+          </div>
+          <div class="hero-feature-item">
+            <div class="feature-icon-wrapper">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            Zstandard (level 19) SquashFS Compression
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Shell Terminal with Flashy Scanline & Cyber Border -->
+      <div class="terminal-window cyber-terminal">
+        <div class="terminal-scanline"></div>
+        <div class="terminal-header">
+          <div class="terminal-dots">
+            <span class="terminal-dot dot-red"></span>
+            <span class="terminal-dot dot-yellow"></span>
+            <span class="terminal-dot dot-green"></span>
+          </div>
+          <div class="terminal-title">
+            <span class="terminal-status-light"></span> liveuser@catteny:~ (Archiso Live Session)
+          </div>
+          <div class="terminal-quick-cmds">
+            <button class="cmd-pill" data-cmd="fastfetch">fastfetch</button>
+            <button class="cmd-pill" data-cmd="cat /etc/os-release">os-release</button>
+            <button class="cmd-pill" data-cmd="sudo pacman -R veyon">test-guard</button>
+            <button class="cmd-pill" data-cmd="help">help</button>
+          </div>
+        </div>
+        <div id="term-body" class="terminal-body">
+          <div id="term-output" class="terminal-output"></div>
+          <div class="terminal-prompt-line">
+            <span class="prompt-prefix">[liveuser@catteny ~]$</span>
+            <input type="text" id="term-input" class="terminal-input" placeholder="Type command (e.g. 'fastfetch', 'sudo pacman -R veyon', 'help')..." autocomplete="off" spellcheck="false">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== Core Pillars & Features ==================== -->
+  <section id="features" class="section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Key Architecture</span>
+        <h2 class="section-title">Built for Performance, Classroom Control & Simplicity</h2>
+        <p class="section-subtitle">
+          Designed from the ground up to solve the real-world operational challenges of computer science labs, high schools, universities, and enterprise training centers.
+        </p>
+      </div>
+
+      <div class="grid-3">
+        <div class="card card-glow-hover">
+          <div class="card-shine"></div>
+          <div class="card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+          </div>
+          <h3 class="card-title">Dual-Profile Archiso</h3>
+          <p class="card-desc">
+            Choose between the <strong>Full Live/Desktop ISO</strong> (with offline KDE/XFCE installation) and the <strong>Netinstall ISO</strong> (lightweight base pulling dynamic network packages).
+          </p>
+          <a href="#profiles" class="card-action-link">Compare Profiles &rarr;</a>
+        </div>
+
+        <div class="card card-glow-hover">
+          <div class="card-shine"></div>
+          <div class="card-icon icon-secondary">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+          </div>
+          <h3 class="card-title">Veyon Lab Monitoring</h3>
+          <p class="card-desc">
+            Integrated Veyon server daemon (<code>veyon-service.service</code>) enabled by default, configured with role-based access lists for teachers and lab administrators.
+          </p>
+          <a href="#simulators" class="card-action-link">View Classroom Visualizer &rarr;</a>
+        </div>
+
+        <div class="card card-glow-hover">
+          <div class="card-shine"></div>
+          <div class="card-icon icon-red">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+          </div>
+          <h3 class="card-title">System Integrity Hook</h3>
+          <p class="card-desc">
+            An ALPM pre-transaction hook (<code>99-org-bundle.hook</code>) and guard script block students from removing or disabling the classroom management service via pacman.
+          </p>
+          <a href="#wiki" class="card-action-link">Read Hook DeepWiki &rarr;</a>
+        </div>
+
+        <div class="card card-glow-hover">
+          <div class="card-shine"></div>
+          <div class="card-icon icon-green">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
+          </div>
+          <h3 class="card-title">Calamares GUI Installer</h3>
+          <p class="card-desc">
+            User-friendly installation wizard with dynamic <code>packagechooser</code> module supporting modular bundles (Office, Media, Dev, Gaming, Browsers).
+          </p>
+          <a href="#simulators" class="card-action-link">Test Bundle Chooser &rarr;</a>
+        </div>
+
+        <div class="card card-glow-hover">
+          <div class="card-shine"></div>
+          <div class="card-icon icon-amber">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          </div>
+          <h3 class="card-title">"Catteny Hello" Hub</h3>
+          <p class="card-desc">
+            PyGObject/GTK3 post-installation welcome application launching on first boot. Point-and-click to deploy category software bundles asynchronously with PolicyKit.
+          </p>
+          <a href="#simulators" class="card-action-link">Launch Hello Simulator &rarr;</a>
+        </div>
+
+        <div class="card card-glow-hover">
+          <div class="card-shine"></div>
+          <div class="card-icon icon-cyan">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+          </div>
+          <h3 class="card-title">CachyOS & BORE Kernel</h3>
+          <p class="card-desc">
+            Engineered with high-throughput, burst-oriented response enhancer scheduler kernels for ultra-low latency response under heavy student multitasking.
+          </p>
+          <a href="#wiki" class="card-action-link">Learn Kernel Tuning &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== Dual Profile Matrix ==================== -->
+  <section id="profiles" class="section section-tinted">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Deployment Models</span>
+        <h2 class="section-title">Two Profiles. One Unified Ecosystem.</h2>
+        <p class="section-subtitle">
+          Tailor your lab deployment according to internet speed, local storage, and installation workflows.
+        </p>
+      </div>
+
+      <div class="grid-2">
+        <!-- Full Profile -->
+        <div class="card profile-card full-profile card-glow-hover">
+          <div class="card-shine"></div>
+          <span class="profile-badge badge-blue">Offline Capable</span>
+          <h3 class="card-title" style="font-size:1.5rem; display:flex; align-items:center; gap:0.5rem;">
+            Full Live/Desktop ISO
+          </h3>
+          <p class="card-desc">
+            Complete turnkey installation media containing the offline desktop environment, Calamares graphical installer, base packages, and Veyon service.
+          </p>
+
+          <ul class="spec-list">
+            <li class="spec-item"><span class="spec-label">Target Directory:</span><span class="spec-value">profile/</span></li>
+            <li class="spec-item"><span class="spec-label">Volume Label:</span><span class="spec-value">CATTENY_YYYYMM</span></li>
+            <li class="spec-item"><span class="spec-label">Compression:</span><span class="spec-value">zstd level 19</span></li>
+            <li class="spec-item"><span class="spec-label">Desktop Stack:</span><span class="spec-value">KDE Plasma 6 / XFCE4</span></li>
+            <li class="spec-item"><span class="spec-label">Installer:</span><span class="spec-value">Calamares GUI + Offline</span></li>
+            <li class="spec-item"><span class="spec-label">Veyon Daemon:</span><span class="spec-value">Pre-installed & Active</span></li>
+            <li class="spec-item"><span class="spec-label">Typical ISO Size:</span><span class="spec-value">~2.4 GB</span></li>
+          </ul>
+
+          <div class="code-terminal-snippet">
+            mkarchiso -v -w /tmp/build -o ./out ./profile/
+          </div>
+        </div>
+
+        <!-- Netinstall Profile -->
+        <div class="card profile-card net-profile card-glow-hover">
+          <div class="card-shine"></div>
+          <span class="profile-badge badge-purple">Lightweight Base</span>
+          <h3 class="card-title" style="font-size:1.5rem; display:flex; align-items:center; gap:0.5rem;">
+            Minimal Netinstall ISO
+          </h3>
+          <p class="card-desc">
+            Compact bootable base image designed for mass PXE netboot or fast USB flashing. Fetches fresh upstream packages dynamically during the setup phase.
+          </p>
+
+          <ul class="spec-list">
+            <li class="spec-item"><span class="spec-label">Target Directory:</span><span class="spec-value">profile-netinstall/</span></li>
+            <li class="spec-item"><span class="spec-label">Volume Label:</span><span class="spec-value">CATTENY_NET</span></li>
+            <li class="spec-item"><span class="spec-label">Compression:</span><span class="spec-value">zstd level 19</span></li>
+            <li class="spec-item"><span class="spec-label">Desktop Stack:</span><span class="spec-value">Dynamic Network Pull</span></li>
+            <li class="spec-item"><span class="spec-label">Installer:</span><span class="spec-value">Network Bootstrap</span></li>
+            <li class="spec-item"><span class="spec-label">Veyon Daemon:</span><span class="spec-value">Pulled at Installation</span></li>
+            <li class="spec-item"><span class="spec-label">Typical ISO Size:</span><span class="spec-value">~820 MB</span></li>
+          </ul>
+
+          <div class="code-terminal-snippet snippet-purple">
+            mkarchiso -v -w /tmp/net-build -o ./out ./profile-netinstall/
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== Interactive Simulators Section ==================== -->
+  <section id="simulators" class="section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Interactive Demos</span>
+        <h2 class="section-title">Experience Catteny Tools in Your Browser</h2>
+        <p class="section-subtitle">
+          Test drive the Catteny Hello onboarding hub, simulate Veyon classroom screen management, and experiment with package bundle selections.
+        </p>
+      </div>
+
+      <div class="sim-container glow-box">
+        <!-- Tab Navigation -->
+        <div class="sim-nav">
+          <button class="sim-tab-btn active" data-tab="hello">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+            "Catteny Hello" Post-Install Hub
+          </button>
+          <button class="sim-tab-btn" data-tab="veyon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            Veyon Classroom Visualizer
+          </button>
+          <button class="sim-tab-btn" data-tab="calamares">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
+            Calamares Pipeline Flow
+          </button>
+        </div>
+
+        <!-- Panel 1: Catteny Hello Simulator -->
+        <div id="panel-hello" class="sim-panel active">
+          <div class="app-mockup">
+            <div class="app-mockup-header">
+              <div style="display:flex; align-items:center; gap:0.5rem; font-weight:700; font-size:0.9rem;">
+                <img src="assets/logo.svg" width="20" height="20" alt="icon">
+                Catteny Welcome & Application Hub (PyGObject GTK3)
+              </div>
+              <div style="font-size:0.75rem; color:var(--text-dim); font-family:var(--font-mono);">
+                /usr/local/bin/catteny-hello
+              </div>
+            </div>
+
+            <div class="app-mockup-body">
+              <div class="category-chips">
+                <button class="category-chip active" data-cat="All">All Bundles</button>
+                <button class="category-chip" data-cat="Productivity">Productivity</button>
+                <button class="category-chip" data-cat="Development">Development</button>
+                <button class="category-chip" data-cat="Media">Media & Design</button>
+                <button class="category-chip" data-cat="Gaming">Gaming & 3D</button>
+                <button class="category-chip" data-cat="Internet">Browsers</button>
+              </div>
+
+              <!-- Packages Grid -->
+              <div id="catalog-grid" class="catalog-grid"></div>
+
+              <!-- Generated Pacman Command Bar -->
+              <div class="pacman-cmd-bar">
+                <div style="display:flex; justify-content:space-between; font-size:0.78rem; color:var(--text-dim); margin-bottom:0.35rem; font-family:var(--font-mono);">
+                  <span>GENERATED POLICYKIT ASYNC PACMAN CALL</span>
+                  <span>GLib.spawn_command_line_async</span>
+                </div>
+                <code id="generated-pacman-cmd" style="font-family:var(--font-mono); color:var(--accent-cyan); font-size:0.88rem; display:block; word-break:break-all;"></code>
+              </div>
+
+              <!-- Installation Progress Simulator -->
+              <div id="install-progress-box" style="display:none; margin-bottom:1rem; background:var(--bg-card); padding:1rem; border-radius:var(--radius-md); border:1px solid var(--border);">
+                <div style="display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:0.5rem;">
+                  <span id="install-status-text">Preparing installation...</span>
+                </div>
+                <div style="width:100%; height:8px; background:var(--border); border-radius:4px; overflow:hidden;">
+                  <div id="install-progress-bar" style="width:0%; height:100%; background:linear-gradient(90deg, var(--primary), var(--secondary)); transition:width 0.2s ease;"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="app-summary-bar">
+              <div class="calc-stats">
+                <div>Selected: <span id="selected-pkgs-count" class="calc-stat-val">3</span></div>
+                <div>Est. Download: <span id="total-download-size" class="calc-stat-val">302 MB</span></div>
+                <div>Disk Space: <span id="total-install-size" class="calc-stat-val">900 MB</span></div>
+              </div>
+              <button id="simulate-install-btn" class="btn btn-primary btn-flashy">
+                <span class="btn-shine"></span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Install Selected Bundles
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 2: Veyon Classroom Visualizer -->
+        <div id="panel-veyon" class="sim-panel">
+          <div class="veyon-grid">
+            <!-- Left Console -->
+            <div class="teacher-console">
+              <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:1rem; font-weight:700; color:var(--accent-cyan);">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                Veyon Maestro Console
+              </div>
+              <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:1.25rem;">
+                Managing Classroom Lab <strong>CS-LAB-4</strong> (12 workstations online).
+              </p>
+
+              <div style="display:flex; flex-direction:column; gap:0.6rem;">
+                <button id="btn-lock-lab" class="btn btn-secondary btn-glow" style="justify-content:flex-start;">
+                  🔒 Lock All Student Screens
+                </button>
+                <button id="btn-unlock-lab" class="btn btn-secondary" style="justify-content:flex-start;">
+                  🔓 Unlock All Screens
+                </button>
+                <button id="btn-broadcast-lab" class="btn btn-secondary" style="justify-content:flex-start;">
+                  📡 Broadcast Teacher Display
+                </button>
+                <button id="btn-sim-hack" class="btn btn-hack-warning" style="justify-content:flex-start; margin-top:0.5rem;">
+                  ⚠️ Student tries: pacman -R veyon
+                </button>
+              </div>
+
+              <div style="margin-top:1.5rem; padding-top:1rem; border-top:1px solid var(--border); font-size:0.75rem; color:var(--text-dim);">
+                <div>Service: <code>veyon-service.service</code></div>
+                <div>Status: <span style="color:#10b981; font-weight:700;">active (running)</span></div>
+                <div>Hook: <code>99-org-bundle.hook</code></div>
+              </div>
+            </div>
+
+            <!-- Right Lab Workstations Grid -->
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+                <h4 style="font-size:1rem; font-weight:700;">Monitored Workstation Nodes</h4>
+                <span class="pill-badge" style="color:#10b981; border-color:rgba(16, 185, 129, 0.3);">
+                  <span class="pulse-dot"></span> 12 / 12 Protected
+                </span>
+              </div>
+              <div id="veyon-lab-grid" class="lab-computers-grid"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 3: Calamares Pipeline -->
+        <div id="panel-calamares" class="sim-panel">
+          <div style="max-width:850px; margin:0 auto;">
+            <h3 style="font-size:1.3rem; margin-bottom:0.75rem;">Calamares Modular Execution Pipeline</h3>
+            <p style="color:var(--text-muted); font-size:0.95rem; margin-bottom:2rem;">
+              Calamares bifurcates system installation into an interactive user presentation queue and an isolated chroot execution queue governed by <code>settings.conf</code>.
+            </p>
+
+            <div style="display:flex; flex-direction:column; gap:1rem;">
+              <div class="pipeline-phase-card">
+                <div style="font-size:0.8rem; font-weight:700; color:var(--accent-cyan); margin-bottom:0.6rem;">PHASE 1: PRESENTATION QUEUE (UI)</div>
+                <div style="display:flex; flex-wrap:wrap; gap:0.5rem;">
+                  <span class="pill-badge">1. welcome</span>
+                  <span class="pill-badge">2. keyboard</span>
+                  <span class="pill-badge">3. partition</span>
+                  <span class="pill-badge">4. users</span>
+                  <span class="pill-badge" style="border-color:var(--primary); color:#ffffff; background:var(--primary);">5. packagechooser</span>
+                  <span class="pill-badge">6. summary</span>
+                </div>
+              </div>
+
+              <div class="pipeline-connector">&darr;</div>
+
+              <div class="pipeline-phase-card">
+                <div style="font-size:0.8rem; font-weight:700; color:var(--secondary); margin-bottom:0.6rem;">PHASE 2: GLOBALSTORAGE SERIALIZATION</div>
+                <p style="font-size:0.85rem; color:var(--text-muted); font-family:var(--font-mono);">
+                  GlobalStorage.set("packagechooser_packagechooser", ["libreoffice-fresh", "thunderbird", "vlc", "steam"])
+                </p>
+              </div>
+
+              <div class="pipeline-connector">&darr;</div>
+
+              <div class="pipeline-phase-card">
+                <div style="font-size:0.8rem; font-weight:700; color:#10b981; margin-bottom:0.6rem;">PHASE 3: CHROOT EXECUTION QUEUE (/target)</div>
+                <div style="display:flex; flex-wrap:wrap; gap:0.5rem;">
+                  <span class="pill-badge">mount</span>
+                  <span class="pill-badge">fstab</span>
+                  <span class="pill-badge">machineid</span>
+                  <span class="pill-badge">initcpio</span>
+                  <span class="pill-badge" style="border-color:#10b981; color:#ffffff; background:#10b981;">packages (pacman execution)</span>
+                  <span class="pill-badge">bootloader (grub/syslinux)</span>
+                  <span class="pill-badge">services-systemd (veyon)</span>
+                  <span class="pill-badge">umount</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== DeepWiki Documentation Explorer ==================== -->
+  <section id="wiki" class="section section-tinted">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Official Knowledge Base</span>
+        <h2 class="section-title">DeepWiki Documentation Hub</h2>
+        <p class="section-subtitle">
+          Complete, verified technical reference documentation imported directly from <a href="https://deepwiki.com/Cattens-Roses/Catteny" target="_blank" rel="noopener">deepwiki.com/Cattens-Roses/Catteny</a>.
+        </p>
+      </div>
+
+      <div class="wiki-layout">
+        <!-- Sidebar Navigation & Filters -->
+        <aside class="wiki-sidebar glow-box">
+          <div class="wiki-search-box">
+            <svg class="wiki-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" id="wiki-search" class="wiki-search-input" placeholder="Search documentation...">
+          </div>
+
+          <div class="wiki-category-filter">
+            <button class="filter-btn active" data-cat="All">All</button>
+            <button class="filter-btn" data-cat="Architecture">Architecture</button>
+            <button class="filter-btn" data-cat="Profiles">Profiles</button>
+            <button class="filter-btn" data-cat="Veyon & Security">Veyon</button>
+            <button class="filter-btn" data-cat="Installer">Installer</button>
+            <button class="filter-btn" data-cat="CI/CD Pipeline">CI/CD</button>
+            <button class="filter-btn" data-cat="Troubleshooting">Fixes</button>
+          </div>
+
+          <div id="wiki-articles-list" class="wiki-articles-list"></div>
+        </aside>
+
+        <!-- Main Article Content Pane -->
+        <main id="wiki-article-content" class="wiki-content-pane glow-box">
+          <!-- Dynamic article injected by app.js -->
+        </main>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== Lab Deployment & Hardware Calculator ==================== -->
+  <section id="calculator" class="section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Planning & Sizing</span>
+        <h2 class="section-title">Classroom Lab Hardware & Deployment Calculator</h2>
+        <p class="section-subtitle">
+          Estimate fleet provisioning duration, recommended ISO profile, and network broadcast load for your educational institution.
+        </p>
+      </div>
+
+      <div class="calc-container">
+        <!-- Input Sliders -->
+        <div class="calc-controls card-glow-hover">
+          <div class="control-group">
+            <label>
+              <span>Number of Lab Workstations:</span>
+              <span id="calc-seats-val" style="color:var(--accent-cyan); font-family:var(--font-mono);">30 Workstations</span>
+            </label>
+            <input type="range" id="calc-seats" class="range-slider" min="5" max="100" value="30" step="5">
+          </div>
+
+          <div class="control-group">
+            <label>
+              <span>Local Network Backbone Speed:</span>
+              <span id="calc-speed-val" style="color:var(--accent-cyan); font-family:var(--font-mono);">1 Gbps</span>
+            </label>
+            <input type="range" id="calc-speed" class="range-slider" min="100" max="10000" value="1000" step="100">
+          </div>
+
+          <div class="calc-tip-box">
+            💡 <strong>Optimization Tip:</strong> In computer labs with Gigabit switches (1 Gbps+), the <strong>Netinstall Profile</strong> allows rolling updates to deploy simultaneously without exhausting disk storage.
+          </div>
+        </div>
+
+        <!-- Calculated Output Results -->
+        <div class="calc-results glow-box">
+          <div>
+            <div style="font-size:0.8rem; font-weight:700; color:var(--text-dim); text-transform:uppercase; margin-bottom:0.25rem;">RECOMMENDED PROFILE</div>
+            <div id="res-profile" style="font-size:1.4rem; font-weight:800; color:var(--primary); margin-bottom:1.5rem;">
+              Netinstall ISO (profile-netinstall/)
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.25rem;">
+              <div>
+                <div style="font-size:0.8rem; color:var(--text-dim);">Est. Total Fleet Deployment Time:</div>
+                <div id="res-time" style="font-size:1.15rem; font-weight:700; color:var(--text-main); font-family:var(--font-mono);">~8 - 14 minutes</div>
+              </div>
+              <div>
+                <div style="font-size:0.8rem; color:var(--text-dim);">Veyon Classroom Stream Bandwidth:</div>
+                <div id="res-bandwidth" style="font-size:1.15rem; font-weight:700; color:var(--text-main); font-family:var(--font-mono);">~66 Mbps LAN Overhead</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top:1.5rem; padding-top:1.25rem; border-top:1px solid var(--border);">
+            <div style="font-size:0.8rem; color:var(--text-dim);">Fleet Disk Requirement:</div>
+            <div id="res-storage" style="font-size:1.1rem; font-weight:700; color:var(--accent-cyan); font-family:var(--font-mono);">~435 GB Cumulative Fleet Disk</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== Flashing & Getting Started Guide ==================== -->
+  <section id="flashing" class="section section-tinted">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Getting Started</span>
+        <h2 class="section-title">Flashing & Installation Guide</h2>
+        <p class="section-subtitle">
+          How to burn the Catteny ISO to a USB flash drive or setup automated PXE boot.
+        </p>
+      </div>
+
+      <div style="max-width:860px; margin:0 auto;" class="glow-box flash-container">
+        <div class="flash-tab-nav">
+          <button class="flash-tab-btn active" data-tool="dd">dd Command (Linux/macOS)</button>
+          <button class="flash-tab-btn" data-tool="ventoy">Ventoy Multi-Boot</button>
+          <button class="flash-tab-btn" data-tool="rufus">Rufus (Windows)</button>
+        </div>
+
+        <div id="flash-dd" class="flash-panel active">
+          <p style="margin-bottom:1rem; color:var(--text-muted); font-size:0.95rem;">
+            Use the command below to burn the ISO directly to your USB thumb drive in RAW image mode. Make sure to specify the correct block device (e.g. <code>/dev/sdb</code>):
+          </p>
+
+          <div style="margin-bottom:1rem; display:flex; gap:0.5rem; align-items:center;">
+            <label style="font-size:0.88rem; font-weight:600;">Target USB Drive:</label>
+            <input type="text" id="dd-drive-input" value="/dev/sdb" class="drive-input">
+          </div>
+
+          <div class="code-preview">
+            <div class="code-header">
+              <span>RAW BLOCK DEVICE WRITE</span>
+              <span class="lang-tag">BASH</span>
+            </div>
+            <pre><code id="dd-generated-cmd">sudo dd bs=4M if=Catteny-0.1-x86_64.iso of=/dev/sdb conv=fsync oflag=direct status=progress</code></pre>
+          </div>
+        </div>
+
+        <div id="flash-ventoy" class="flash-panel" style="display:none;">
+          <p style="color:var(--text-muted); line-height:1.7;">
+            <strong>Ventoy</strong> is the recommended utility for computer lab administrators:
+            <br>1. Format your USB drive with Ventoy (<a href="https://www.ventoy.net" target="_blank" rel="noopener">ventoy.net</a>).
+            <br>2. Simply copy <code>Catteny-0.1-x86_64.iso</code> into the Ventoy USB partition.
+            <br>3. Boot any UEFI or legacy BIOS workstation directly from the menu.
+          </p>
+        </div>
+
+        <div id="flash-rufus" class="flash-panel" style="display:none;">
+          <p style="color:var(--text-muted); line-height:1.7;">
+            When using <strong>Rufus</strong> on Windows:
+            <br>1. Select your USB drive and point to the Catteny ISO image.
+            <br>2. Partition scheme: <code>GPT</code> for modern UEFI or <code>MBR</code> for legacy BIOS.
+            <br>3. <strong>Crucial:</strong> When prompted, choose <strong>"Write in DD Image mode"</strong> to ensure Archiso hybrid partitions are written correctly without corruption.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== Security Alert Modal ==================== -->
+  <div id="security-alert-modal" class="modal-overlay">
+    <div class="modal-card modal-cyber-border">
+      <button id="modal-close-btn" class="modal-close">&times;</button>
+      <div style="font-size:2.5rem; margin-bottom:0.75rem;">🛡️</div>
+      <h3 style="font-size:1.35rem; color:#ef4444; margin-bottom:0.5rem; font-weight:800;">
+        ALPM Removal Hook Intercepted!
+      </h3>
+      <p style="color:var(--text-muted); font-size:0.95rem; margin-bottom:1.25rem;">
+        The student ran: <code>sudo pacman -R veyon</code>. Here is how Catteny's ALPM PreTransaction hook halted the removal:
+      </p>
+
+      <div class="security-modal-code">
+        <span style="color:#f59e0b;">:: Running pre-transaction hooks...</span><br>
+        (1/1) Checking Organization Core Component Integrity...<br>
+        <span style="color:#ef4444; font-weight:bold;">
+        ========================================================<br>
+         [SECURITY ALERT] Catteny System Integrity Protection<br>
+         Removal of 'veyon' (Organization Bundle) is restricted.<br>
+         This machine is enrolled in an educational workstation fleet.<br>
+         Contact your system administrator to disenroll.<br>
+        ========================================================<br>
+        </span>
+        <span style="color:#ef4444;">error: command failed to execute correctly: /usr/local/bin/org-bundle-guard</span><br>
+        <span style="color:#ef4444;">error: failed to commit transaction (hook failed)</span>
+      </div>
+
+      <button onclick="document.getElementById('security-alert-modal').classList.remove('open')" class="btn btn-primary btn-flashy" style="width:100%;">
+        <span class="btn-shine"></span>
+        Acknowledge & Close
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================== Footer ==================== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div style="display:flex; align-items:center; gap:0.5rem; font-size:1.2rem; font-weight:800;">
+            <img src="assets/logo.svg" alt="logo" width="28" height="28">
+            Catteny Project
+          </div>
+          <p>
+            An Arch Linux-based distribution profile tailored for educational computer labs, universities, and enterprise workstation fleets.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Navigation</h4>
+          <ul class="footer-links">
+            <li><a href="#hero">Overview</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#profiles">Dual Profiles</a></li>
+            <li><a href="#simulators">Simulators</a></li>
+            <li><a href="#wiki">DeepWiki Docs</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Documentation</h4>
+          <ul class="footer-links">
+            <li><a href="https://deepwiki.com/Cattens-Roses/Catteny" target="_blank" rel="noopener">Official DeepWiki</a></li>
+            <li><a href="https://wiki.archlinux.org/title/Archiso" target="_blank" rel="noopener">Archiso Wiki</a></li>
+            <li><a href="https://calamares.io" target="_blank" rel="noopener">Calamares Installer</a></li>
+            <li><a href="https://veyon.io" target="_blank" rel="noopener">Veyon Network</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Community & Source</h4>
+          <ul class="footer-links">
+            <li><a href="https://github.com/Cattens-Roses/Catteny" target="_blank" rel="noopener">GitHub Repository</a></li>
+            <li><a href="https://github.com/Cattens-Roses/Catteny/actions" target="_blank" rel="noopener">GitHub CI/CD Actions</a></li>
+            <li><a href="https://github.com/Cattens-Roses/Catteny/issues" target="_blank" rel="noopener">Issue Tracker</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 Catteny Project. Released under open-source licenses.</div>
+        <div>Engineered based on <a href="https://deepwiki.com/Cattens-Roses/Catteny" target="_blank" rel="noopener">DeepWiki Cattens-Roses/Catteny</a></div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/wiki-data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
