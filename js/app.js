@@ -312,7 +312,13 @@ function getFastfetchOutput() {
 }
 
 function getNeofetchOutput() {
-  return `<span style="color:#e11d48;">liveuser@catteny</span>
+  return `<span style="color: #e11d48; font-weight:bold;">  ____      _   _
+ / ___|__ _| |_| |_ ___ _ __  _   _
+| |   / _\` | __| __/ _ \\ '_ \\| | | |
+| |__| (_| | |_| ||  __/ | | | |_| |
+ \\____\\__,_|\\__|\\__\\___|_| |_|\\__, |
+                              |___/</span>
+<span style="color:#e11d48;">liveuser@catteny</span>
 ----------------
 <span style="color:#ff3366;">OS:</span> Catteny 0.1 x86_64
 <span style="color:#ff3366;">Kernel:</span> 6.6.arch1-cachyos-bore

@@ -480,50 +480,75 @@
           </div>
         </div>
 
-        <!-- Panel 3: Calamares Pipeline -->
+        <!-- Panel 3: Calamares Pipeline (Interactive) -->
         <div id="panel-calamares" class="sim-panel">
           <div style="max-width:850px; margin:0 auto;">
             <h3 style="font-size:1.3rem; margin-bottom:0.75rem;">Calamares Modular Execution Pipeline</h3>
-            <p style="color:var(--text-muted); font-size:0.95rem; margin-bottom:2rem;">
+            <p style="color:var(--text-muted); font-size:0.95rem; margin-bottom:1rem;">
               Calamares bifurcates system installation into an interactive user presentation queue and an isolated chroot execution queue governed by <code>settings.conf</code>.
+              <strong style="color:var(--accent-red);">Click any module</strong> to see its details. Press <strong>Run Pipeline</strong> to simulate installation.
             </p>
+
+            <!-- Pipeline info panel -->
+            <div id="pipeline-info-box" style="display:none; margin-bottom:1.25rem; padding:1rem 1.25rem; border-radius:var(--radius-md); border:1px solid var(--accent-red); background:rgba(225,29,72,0.08); transition:all 0.3s ease;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.4rem;">
+                <span id="pipeline-info-title" style="font-weight:700; color:var(--accent-red); font-size:0.95rem;"></span>
+                <button id="pipeline-info-close" style="background:none; border:none; color:var(--text-dim); cursor:pointer; font-size:1.2rem;">&times;</button>
+              </div>
+              <p id="pipeline-info-desc" style="font-size:0.88rem; color:var(--text-muted); margin:0; line-height:1.5;"></p>
+            </div>
 
             <div style="display:flex; flex-direction:column; gap:1rem;">
               <div class="pipeline-phase-card">
                 <div style="font-size:0.8rem; font-weight:700; color:var(--accent-cyan); margin-bottom:0.6rem;">PHASE 1: PRESENTATION QUEUE (UI)</div>
                 <div style="display:flex; flex-wrap:wrap; gap:0.5rem;">
-                  <span class="pill-badge">1. welcome</span>
-                  <span class="pill-badge">2. keyboard</span>
-                  <span class="pill-badge">3. partition</span>
-                  <span class="pill-badge">4. users</span>
-                  <span class="pill-badge" style="border-color:var(--primary); color:#ffffff; background:var(--primary);">5. packagechooser</span>
-                  <span class="pill-badge">6. summary</span>
+                  <span class="pill-badge pipeline-module" data-module="welcome" style="cursor:pointer; transition:all 0.2s ease;">1. welcome</span>
+                  <span class="pill-badge pipeline-module" data-module="keyboard" style="cursor:pointer; transition:all 0.2s ease;">2. keyboard</span>
+                  <span class="pill-badge pipeline-module" data-module="partition" style="cursor:pointer; transition:all 0.2s ease;">3. partition</span>
+                  <span class="pill-badge pipeline-module" data-module="users" style="cursor:pointer; transition:all 0.2s ease;">4. users</span>
+                  <span class="pill-badge pipeline-module" data-module="packagechooser" style="border-color:var(--primary); color:#ffffff; background:var(--primary); cursor:pointer; transition:all 0.2s ease;">5. packagechooser</span>
+                  <span class="pill-badge pipeline-module" data-module="summary" style="cursor:pointer; transition:all 0.2s ease;">6. summary</span>
                 </div>
               </div>
 
-              <div class="pipeline-connector">&darr;</div>
+              <div class="pipeline-connector" id="pipeline-arrow-1">&darr;</div>
 
               <div class="pipeline-phase-card">
                 <div style="font-size:0.8rem; font-weight:700; color:var(--secondary); margin-bottom:0.6rem;">PHASE 2: GLOBALSTORAGE SERIALIZATION</div>
-                <p style="font-size:0.85rem; color:var(--text-muted); font-family:var(--font-mono);">
+                <p id="pipeline-globalstorage" style="font-size:0.85rem; color:var(--text-muted); font-family:var(--font-mono);">
                   GlobalStorage.set("packagechooser_packagechooser", ["libreoffice-fresh", "thunderbird", "vlc", "steam"])
                 </p>
               </div>
 
-              <div class="pipeline-connector">&darr;</div>
+              <div class="pipeline-connector" id="pipeline-arrow-2">&darr;</div>
 
               <div class="pipeline-phase-card">
                 <div style="font-size:0.8rem; font-weight:700; color:#10b981; margin-bottom:0.6rem;">PHASE 3: CHROOT EXECUTION QUEUE (/target)</div>
                 <div style="display:flex; flex-wrap:wrap; gap:0.5rem;">
-                  <span class="pill-badge">mount</span>
-                  <span class="pill-badge">fstab</span>
-                  <span class="pill-badge">machineid</span>
-                  <span class="pill-badge">initcpio</span>
-                  <span class="pill-badge" style="border-color:#10b981; color:#ffffff; background:#10b981;">packages (pacman execution)</span>
-                  <span class="pill-badge">bootloader (grub/syslinux)</span>
-                  <span class="pill-badge">services-systemd (veyon)</span>
-                  <span class="pill-badge">umount</span>
+                  <span class="pill-badge pipeline-module" data-module="mount" style="cursor:pointer; transition:all 0.2s ease;">mount</span>
+                  <span class="pill-badge pipeline-module" data-module="fstab" style="cursor:pointer; transition:all 0.2s ease;">fstab</span>
+                  <span class="pill-badge pipeline-module" data-module="machineid" style="cursor:pointer; transition:all 0.2s ease;">machineid</span>
+                  <span class="pill-badge pipeline-module" data-module="initcpio" style="cursor:pointer; transition:all 0.2s ease;">initcpio</span>
+                  <span class="pill-badge pipeline-module" data-module="packages" style="border-color:#10b981; color:#ffffff; background:#10b981; cursor:pointer; transition:all 0.2s ease;">packages (pacman execution)</span>
+                  <span class="pill-badge pipeline-module" data-module="bootloader" style="cursor:pointer; transition:all 0.2s ease;">bootloader (grub/syslinux)</span>
+                  <span class="pill-badge pipeline-module" data-module="services" style="cursor:pointer; transition:all 0.2s ease;">services-systemd (veyon)</span>
+                  <span class="pill-badge pipeline-module" data-module="umount" style="cursor:pointer; transition:all 0.2s ease;">umount</span>
                 </div>
+              </div>
+            </div>
+
+            <!-- Pipeline simulation controls -->
+            <div style="margin-top:1.5rem; display:flex; gap:1rem; align-items:center; flex-wrap:wrap;">
+              <button id="run-pipeline-btn" class="btn btn-primary btn-flashy">
+                <span class="btn-shine"></span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                Run Pipeline Simulation
+              </button>
+              <span id="pipeline-sim-status" style="font-size:0.85rem; color:var(--text-dim); font-family:var(--font-mono);"></span>
+            </div>
+            <div id="pipeline-progress-box" style="display:none; margin-top:1rem;">
+              <div style="width:100%; height:8px; background:var(--border); border-radius:4px; overflow:hidden;">
+                <div id="pipeline-progress-bar" style="width:0%; height:100%; background:linear-gradient(90deg, var(--accent-red), #10b981); transition:width 0.3s ease;"></div>
               </div>
             </div>
           </div>
@@ -673,7 +698,7 @@
           </div>
         </div>
 
-        <div id="flash-ventoy" class="flash-panel" style="display:none;">
+        <div id="flash-ventoy" class="flash-panel">
           <p style="color:var(--text-muted); line-height:1.7;">
             <strong>Ventoy</strong> is the recommended utility for computer lab administrators:
             <br>1. Format your USB drive with Ventoy (<a href="https://www.ventoy.net" target="_blank" rel="noopener">ventoy.net</a>).
@@ -682,7 +707,7 @@
           </p>
         </div>
 
-        <div id="flash-rufus" class="flash-panel" style="display:none;">
+        <div id="flash-rufus" class="flash-panel">
           <p style="color:var(--text-muted); line-height:1.7;">
             When using <strong>Rufus</strong> on Windows:
             <br>1. Select your USB drive and point to the Catteny ISO image.
