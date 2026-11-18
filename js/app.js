@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initTerminal();
   initWikiExplorer();
   initSoftwareSimulators();
+  initCalamaresPipeline();
   initVeyonVisualizer();
   initLabCalculator();
   initFlashingGuide();
@@ -295,18 +296,18 @@ Tip: Explore the live visual simulator tab below!`;
 
 function getFastfetchOutput() {
   return `<span style="color: #e11d48; font-weight:bold;">
-       /\\         <span style="color:#ff3366;">liveuser</span>@<span style="color:#dc2626;">catteny</span>
-      /  \\        ----------------
-     /\\   \\       <span style="color:#ff3366;">OS:</span> Catteny 0.1 x86_64 (Arch Linux base)
-    /      \\      <span style="color:#ff3366;">Host:</span> Educational Computer Lab Workstation
-   /   ,,   \\     <span style="color:#ff3366;">Kernel:</span> 6.6.32-1-cachyos-bore
-  /   |  |  -\\    <span style="color:#ff3366;">Uptime:</span> 4 hours, 12 mins
- /_-''    ''-_\\   <span style="color:#ff3366;">Packages:</span> 1,148 (pacman), Veyon active
-                  <span style="color:#ff3366;">Shell:</span> bash 5.2.26
-                  <span style="color:#ff3366;">DE:</span> KDE Plasma 6.0.4 / XFCE4
-                  <span style="color:#ff3366;">WM:</span> KWin (Wayland/X11)
-                  <span style="color:#ff3366;">CPU:</span> Multi-core Workstation Processor
-                  <span style="color:#ff3366;">Memory:</span> 3.42 GiB / 16.00 GiB (21%)
+  ____      _   _                     <span style="color:#ff3366;">liveuser</span>@<span style="color:#dc2626;">catteny</span>
+ / ___|__ _| |_| |_ ___ _ __  _   _   ----------------
+| |   / _\` | __| __/ _ \\ '_ \\| | | |  <span style="color:#ff3366;">OS:</span> Catteny 0.1 x86_64 (Arch Linux base)
+| |__| (_| | |_| ||  __/ | | | |_| |  <span style="color:#ff3366;">Host:</span> Educational Computer Lab Workstation
+ \\____\\__,_|\\__|\\__\\___|_| |_|\\__, |  <span style="color:#ff3366;">Kernel:</span> 6.6.32-1-cachyos-bore
+                              |___/   <span style="color:#ff3366;">Uptime:</span> 4 hours, 12 mins
+                                      <span style="color:#ff3366;">Packages:</span> 1,148 (pacman), Veyon active
+                                      <span style="color:#ff3366;">Shell:</span> bash 5.2.26
+                                      <span style="color:#ff3366;">DE:</span> KDE Plasma 6.0.4 / XFCE4
+                                      <span style="color:#ff3366;">WM:</span> KWin (Wayland/X11)
+                                      <span style="color:#ff3366;">CPU:</span> Multi-core Workstation Processor
+                                      <span style="color:#ff3366;">Memory:</span> 3.42 GiB / 16.00 GiB (21%)
 </span>
 <span style="background-color:#000000;">   </span><span style="background-color:#991b1b;">   </span><span style="background-color:#dc2626;">   </span><span style="background-color:#e11d48;">   </span><span style="background-color:#ff3366;">   </span><span style="background-color:#f43f5e;">   </span><span style="background-color:#fb7185;">   </span><span style="background-color:#ffffff;">   </span>`;
 }
@@ -600,6 +601,8 @@ function initVeyonVisualizer() {
     const node = document.createElement("div");
     node.className = "student-node online";
     node.id = `node-pc-${pcId}`;
+    node.style.cursor = "pointer";
+    node.title = `Click to inspect PC-${pcId}`;
     node.innerHTML = `
       <div style="font-size: 1.5rem; margin-bottom: 0.35rem;">🖥️</div>
       <div style="font-weight: 700; font-size: 0.85rem;">PC-${pcId}</div>
@@ -607,6 +610,18 @@ function initVeyonVisualizer() {
         <span class="node-status-dot status-online"></span>Online
       </div>
     `;
+
+    node.addEventListener("click", () => {
+      const isLocked = node.classList.contains("locked");
+      if (isLocked) {
+        node.className = "student-node online";
+        node.querySelector("div:last-child").innerHTML = `<span class="node-status-dot status-online"></span>Online`;
+      } else {
+        node.className = "student-node locked";
+        node.querySelector("div:last-child").innerHTML = `<span class="node-status-dot status-locked"></span>Locked`;
+      }
+    });
+
     labGrid.appendChild(node);
   }
 
@@ -757,4 +772,168 @@ function escapeHtml(str) {
       default: return m;
     }
   });
+}
+
+/* ==========================================================================
+   Calamares Interactive Pipeline Logic
+   ========================================================================== */
+function initCalamaresPipeline() {
+  const moduleBadges = document.querySelectorAll('.pipeline-module');
+  const infoBox = document.getElementById('pipeline-info-box');
+  const infoTitle = document.getElementById('pipeline-info-title');
+  const infoDesc = document.getElementById('pipeline-info-desc');
+  const infoClose = document.getElementById('pipeline-info-close');
+  const runBtn = document.getElementById('run-pipeline-btn');
+  const simStatus = document.getElementById('pipeline-sim-status');
+  const progressBox = document.getElementById('pipeline-progress-box');
+  const progressBar = document.getElementById('pipeline-progress-bar');
+  const globalStorageEl = document.getElementById('pipeline-globalstorage');
+
+  const moduleData = {
+    welcome: {
+      title: "1. Welcome Module (View)",
+      desc: "Displays the greeting screen, checks system requirements (Internet, power, storage, RAM), and allows selecting the installation language."
+    },
+    keyboard: {
+      title: "2. Keyboard Layout Module (View)",
+      desc: "Provides graphical keyboard layout selector with real-time test field. Configures X11 keymap and vconsole for Linux VT."
+    },
+    partition: {
+      title: "3. Partitioning Engine (View & Prepare)",
+      desc: "Offers automatic partitioning (Erase disk / Swap to file) or manual partitioning using KPMcore library with GPT/MBR and EFI System Partition detection."
+    },
+    users: {
+      title: "4. User Accounts Setup (View)",
+      desc: "Collects full name, login username, hostname, user password, and optional administrative root password flag."
+    },
+    packagechooser: {
+      title: "5. Package Chooser (Catteny Bundles)",
+      desc: "Customized module offering selectable Catteny software bundles (Office, Media, Gaming, Development, Web browsers). Stores bundle choices into Calamares GlobalStorage."
+    },
+    summary: {
+      title: "6. Summary Review (View)",
+      desc: "Presents an exhaustive pre-execution review of all configured parameters (disk layout, user, keymap, packages) prior to touching disks."
+    },
+    mount: {
+      title: "Chroot Execution: mount",
+      desc: "Mounts target root partition to /target, binds /dev, /proc, /sys, /run and prepares temporary chroot execution jail."
+    },
+    fstab: {
+      title: "Chroot Execution: fstab",
+      desc: "Generates /target/etc/fstab with persistent filesystem UUIDs and configured mount options (e.g. noatime, discard for SSDs)."
+    },
+    machineid: {
+      title: "Chroot Execution: machine-id",
+      desc: "Generates unique /etc/machine-id and systemd D-Bus machine ID for workstation fleet identification."
+    },
+    initcpio: {
+      title: "Chroot Execution: initcpio",
+      desc: "Executes mkinitcpio inside target system to compile custom Linux kernel initramfs with required storage & filesystem drivers."
+    },
+    packages: {
+      title: "Chroot Execution: packages (Pacman)",
+      desc: "Invokes pacman -S inside chroot to install core packages, drivers, and user-selected bundles from packagechooser, plus Veyon student monitoring daemon."
+    },
+    bootloader: {
+      title: "Chroot Execution: bootloader",
+      desc: "Installs GRUB or systemd-boot to EFI System Partition (UEFI) or Master Boot Record (BIOS) and writes bootloader menu entries."
+    },
+    services: {
+      title: "Chroot Execution: services-systemd",
+      desc: "Enables required systemd unit files in target OS: NetworkManager.service, sddm.service/lightdm.service, and veyon-service.service."
+    },
+    umount: {
+      title: "Chroot Execution: umount",
+      desc: "Flushes dirty disk buffers, unmounts all virtual filesystems, and cleanly dismounts /target so the user can reboot into installed Catteny OS."
+    }
+  };
+
+  moduleBadges.forEach(badge => {
+    badge.addEventListener('click', () => {
+      const modKey = badge.getAttribute('data-module');
+      const data = moduleData[modKey];
+      if (data && infoBox && infoTitle && infoDesc) {
+        infoTitle.textContent = data.title;
+        infoDesc.textContent = data.desc;
+        infoBox.style.display = 'block';
+        moduleBadges.forEach(b => b.style.boxShadow = 'none');
+        badge.style.boxShadow = '0 0 10px rgba(225, 29, 72, 0.6)';
+      }
+    });
+  });
+
+  if (infoClose && infoBox) {
+    infoClose.addEventListener('click', () => {
+      infoBox.style.display = 'none';
+      moduleBadges.forEach(b => b.style.boxShadow = 'none');
+    });
+  }
+
+  if (runBtn) {
+    runBtn.addEventListener('click', () => {
+      runBtn.disabled = true;
+      if (progressBox) progressBox.style.display = 'block';
+      if (simStatus) simStatus.textContent = 'Starting pipeline execution...';
+
+      const sequence = [
+        { mod: 'welcome', label: 'Presenting Welcome screen...', progress: 10 },
+        { mod: 'keyboard', label: 'Configuring keymap (us, latam, etc.)...', progress: 20 },
+        { mod: 'partition', label: 'Preparing partition scheme on /dev/nvme0n1...', progress: 30 },
+        { mod: 'users', label: 'Setting liveuser credentials...', progress: 40 },
+        { mod: 'packagechooser', label: 'Storing selected bundles into GlobalStorage...', progress: 50 },
+        { mod: 'summary', label: 'User confirmed installation summary.', progress: 55 },
+        { mod: 'mount', label: 'Mounting /target and pseudo-filesystems...', progress: 65 },
+        { mod: 'fstab', label: 'Writing /target/etc/fstab with UUIDs...', progress: 70 },
+        { mod: 'machineid', label: 'Generating /target/etc/machine-id...', progress: 75 },
+        { mod: 'initcpio', label: 'Compiling initramfs via mkinitcpio...', progress: 80 },
+        { mod: 'packages', label: 'Executing pacman: installing base + Veyon + desktop...', progress: 88 },
+        { mod: 'bootloader', label: 'Installing GRUB EFI bootloader...', progress: 93 },
+        { mod: 'services', label: 'Enabling veyon-service.service & NetworkManager...', progress: 97 },
+        { mod: 'umount', label: 'Unmounting /target. Installation Complete!', progress: 100 }
+      ];
+
+      let step = 0;
+      function nextStep() {
+        if (step >= sequence.length) {
+          if (simStatus) simStatus.innerHTML = '<span style="color:#10b981; font-weight:700;">✓ Pipeline successfully completed! System ready to boot.</span>';
+          moduleBadges.forEach(b => {
+            b.style.boxShadow = 'none';
+            b.style.opacity = '1';
+          });
+          setTimeout(() => {
+            runBtn.disabled = false;
+          }, 1500);
+          return;
+        }
+
+        const item = sequence[step];
+        const activeBadge = document.querySelector(`.pipeline-module[data-module="${item.mod}"]`);
+        
+        moduleBadges.forEach(b => {
+          b.style.boxShadow = 'none';
+          b.style.opacity = '0.6';
+        });
+
+        if (activeBadge) {
+          activeBadge.style.opacity = '1';
+          activeBadge.style.boxShadow = '0 0 12px #e11d48';
+          activeBadge.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        if (progressBar) progressBar.style.width = item.progress + '%';
+        if (simStatus) simStatus.textContent = `[${step + 1}/${sequence.length}] ${item.label}`;
+
+        // GlobalStorage dynamic text update at phase 2
+        if (item.mod === 'packagechooser' && globalStorageEl) {
+          globalStorageEl.style.color = '#ff3366';
+          globalStorageEl.textContent = 'GlobalStorage.set("packagechooser_packagechooser", ["libreoffice-fresh", "thunderbird", "vlc", "veyon", "alacritty"])';
+        }
+
+        step++;
+        setTimeout(nextStep, 500);
+      }
+
+      nextStep();
+    });
+  }
 }

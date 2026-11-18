@@ -106,9 +106,16 @@ jobs:
       - name: Build netinstall ISO
         run: mkarchiso -v -w /tmp/build-net -o ./out ./profile-netinstall/
 
-      - name: Upload
+      - name: Upload Full ISO
         uses: actions/upload-artifact@v4
         with:
-          name: catteny-iso
-          path: out/*.iso
+          name: catteny-full-iso
+          path: out/Catteny-*.iso
+          retention-days: 30
+
+      - name: Upload Netinstall ISO
+        uses: actions/upload-artifact@v4
+        with:
+          name: catteny-netinstall-iso
+          path: out/Catteny-Net-*.iso
           retention-days: 30

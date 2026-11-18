@@ -22,7 +22,7 @@ The installable ISO is automatically built by a GitHub Actions workflow.
 
 1.  Navigate to the **Actions** tab of this repository.
 2.  Click on the latest successful workflow run under the "Build ISO" list.
-3.  Under the **Artifacts** section, download the `catteny-iso` archive.
+3.  Under the **Artifacts** section, download either `catteny-full-iso` or `catteny-netinstall-iso`.
 
 ## Building from Source
 
